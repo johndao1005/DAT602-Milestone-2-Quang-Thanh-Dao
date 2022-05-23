@@ -56,6 +56,7 @@ begin
     foreign key (`userID`) references Users(`userID`)  on delete cascade
     );
 
+	-- can change into join table for session and character
 	create table Sessions (
     `sessionID` int not null primary key auto_increment,
     `characterID_1` int not null,
@@ -124,7 +125,7 @@ end //
 
 
 -- Map
-
+-- Can change into session log for everything with session ID to record the change such as eat food from map or changing tiles. the session ID can take from player session
 drop procedure if exists PrebuildMap;
 create procedure PrebuildMap(in session_map varchar(255))
 begin
@@ -183,8 +184,8 @@ end //
 
 create procedure CreateUser (in Email varchar(255), in Username varchar(255), in `Password` varchar(255) )
 begin
-if coalesce(( select 1 from Users
-where Users.email = Email),0) = 0 then
+if exists( select* from Users
+where Users.email = Email) then
 insert into Users(email, username, password)
     value(Email,Username,`Password`);
 	select concat('Created User ',Username)  as message;
@@ -198,8 +199,8 @@ create procedure EditUSer(in UserID int, in Username varchar(255), in Email varc
 begin
 SET SQL_SAFE_UPDATES = 0;
 
-if coalesce(( select 1 from Users
-	where Users.email = Email),0) = 1 then
+if exists( select* from Users
+where Users.email = Email) then
 	select 'Email is already used, Please enter a different email' as message;
 else 
 	update Users
@@ -218,8 +219,8 @@ end //
 create procedure AuthUser(in inputEmail varchar(255), in inputPassword varchar(255) )
 begin
 SET SQL_SAFE_UPDATES = 0;
-	if coalesce(( select 1 from Users
-	where Users.email = inputEmail),0) = 1 then
+if exists( select* from Users
+where Users.email = Email) then
 	select 
     Users.password,
     Users.admin_check ,
@@ -276,8 +277,8 @@ end //
 -- Character procedures
 create procedure CreateCharacter(in UserID int, in CharacterName varchar(200) )
 begin
-	if coalesce(( select 1 from Characters
-	where Characters.userID = UserID),0) = 1 then
+	if exists( select* from Characters
+	where Characters.userID = UserID) then
 		select "Character is already existed"as message;
     else
 		insert into Characters(`userID`,`name`)
@@ -399,7 +400,7 @@ SET SQL_SAFE_UPDATES = 1;
 	select 'Remove session Complete' as message;
 end //
 
-create procedure UpDateHighScore(in userID int, in newScore int)
+create procedure UpdateHighScore(in userID int, in newScore int)
 begin
 SET SQL_SAFE_UPDATES = 0;
 	select highest_score into @currentScore from Users where Users.userID = userID;

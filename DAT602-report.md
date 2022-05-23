@@ -1,6 +1,13 @@
 # DAT602 game design
 
-![image-20220518141834419](C:\Users\John-Dao\AppData\Roaming\Typora\typora-user-images\image-20220518141834419.png)
+## Current logic (subject to change according to milestone)
+
+   ![img](./game-flow.png)
+
+The current CRUD Table is attached also with following updates :
+
+- change the action to procedures name
+- minor update on how the CRUD apply with each procedure
 
 ## 1. SQL Procedures and transactions
 
@@ -96,7 +103,7 @@ An extra procedure which triggers the finish game function when a timestamp is r
 
 ### 2.1 Transactions
 
-According to databricks.com, a transaction is an operation that is treated as a single unit of work which can be completed or incomplete such as paying for an item at the store. In the same format, a database transaction is a set of operations on a database with the purpose of completing an action or process. An example of a transaction could be creating a game which required the presence of `Session`, `Characters`, `Map`, `Tile`,`Users` and can only start and finished with those table's information. If any information is missing the data will be incomplete and the game will never be finished.
+According to [databricks.com]( https://databricks.com/glossary/acid-transactions), a transaction is an operation that is treated as a single unit of work which can be completed or incomplete such as paying for an item at the store. In the same format, a database transaction is a set of operations on a database with the purpose of completing an action or process. An example of a transaction could be creating a game which required the presence of `Session`, `Characters`, `Map`, `Tile`, `Users` and can only start and finished with those table's information. If any information is missing the data will be incomplete and the game will never be finished.
 
 ### 2.2 The Importance of ACID
 
@@ -104,9 +111,11 @@ ACID stands for Atomicity, Consistency, Isolation, Durability
 
 #### 2.2.1 Atomicity
 
-According to the database.guide, the term means there are only two outcomes of a transaction, either success or failure, there is no success partly or half failed transaction. This aspect of the transaction ensures that the chain of actions leads to a certain outcome or reaches the end goal of the transaction. An example would be the procedure `GetFood`, if by getting the food, play get the point but the food doesn't disappear then the player can just get the same food and win the game without the need to distribute the food to the whole map.
+According to the ![database.guide, the term means there are only two outcomes of a transaction, either success or failure, there is no success partly or half failed transaction. This aspect of the transaction ensures that the chain of actions leads to a certain outcome or reaches the end goal of the transaction. An example would be the procedure `GetFood`, if by getting the food, play get the point but the food doesn't disappear then the player can just get the same food and win the game without the need to distribute the food to the whole map.
 
 #### 2.2.1 Consistency
+
+# Check last week example Need to add ACID information about MYSQL 
 
 According to the database.guide, consistency ensures that all data will be consistent and valid according to the rule set out by the database and developer. If the user wants to archive a goal or result from an action then the input needs to be correct and valid for the action to be completed.
 
